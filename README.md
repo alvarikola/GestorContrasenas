@@ -1,4 +1,4 @@
 # Gestor-contrasenas
-## Álvaro y Andrei
+## Colaboradores Álvaro, Andrei y Yoel
 
-<img src="https://github.com/alvarikola/Gestor-contrasenas/blob/main/plantilla1.png"/>
+<img src="https://github.com/alvarikola/GestorContrasenas/blob/master/app/Imagenes/plantilla1.png"/>
