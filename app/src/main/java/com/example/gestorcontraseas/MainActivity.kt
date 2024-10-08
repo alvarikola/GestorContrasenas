@@ -42,18 +42,23 @@ class MainActivity : ComponentActivity() {
 fun Contenedor(modifier: Modifier = Modifier) {
     var usuario:String = "Alvaro"
     var contrasena:String = "1234"
+    Text(
+        text = "Gestor de Contraseñas",
+        fontSize = 30.sp,
+        modifier = Modifier.padding(16.dp)
+    )
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = modifier
     ) {
         Text(
             text = "Usuario: " + usuario,
-            fontSize = 30.sp,
+            fontSize = 20.sp,
             modifier = Modifier.padding(16.dp)
         )
         Text(
             text = "Contraseña: " + contrasena,
-            fontSize = 30.sp,
+            fontSize = 20.sp,
             modifier = Modifier.padding(16.dp)
         )
     }
