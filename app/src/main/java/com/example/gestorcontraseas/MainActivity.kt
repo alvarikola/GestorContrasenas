@@ -41,11 +41,11 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Contenedor(modifier: Modifier = Modifier) {
     var usuario:String = "Alvaro"
-    var contrasena:String = "1222"
+    var contrasena:String = "4444"
     Text(
         text = "Gestor de Contraseñas",
         fontSize = 30.sp,
-        modifier = Modifier.padding(50.dp)
+        modifier = Modifier.padding(16.dp)
     )
     Column(
         verticalArrangement = Arrangement.Center,
