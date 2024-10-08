@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Contenedor(modifier: Modifier = Modifier) {
     var usuario:String = "Alvaro"
-    var contrasena:String = "5555"
+    var contrasena:String = "9999"
     Text(
         text = "Gestor de Contraseñas",
         fontSize = 30.sp,
