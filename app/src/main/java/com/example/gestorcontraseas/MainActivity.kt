@@ -53,7 +53,7 @@ fun Contenedor(modifier: Modifier = Modifier) {
         )
         Text(
             text = "Contraseña: " + contrasena,
-            fontSize = 30.sp,
+            fontSize = 20.sp,
             modifier = Modifier.padding(16.dp)
         )
     }
