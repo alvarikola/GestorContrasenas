@@ -80,8 +80,6 @@ fun Contenedor(nombreArchivo: String) {
                     onClick = {
                         var outs1 = WriteReadUserPass.guardarUserPassArchivo(myContext, texto, nombreArchivo)
                         Log.i("prueba", outs1)
-//                    modifier = Modifier.
-
                     }
                 ) {
                     Text("Añadir")
@@ -121,16 +119,9 @@ fun Contenedor(nombreArchivo: String) {
                     }
                     Button(
                         onClick = {
-                            if (index > 0) {
-                                Log.i("prueba", outs2.size.toString())
-                                index -= 1
-                                Log.i("prueba", index.toString())
-                                val partes = outs2[index].split(":")
-                                if (partes.size == 2) {
-                                    usuarioMostrar = partes[0]
-                                    contrasenaMostrar = partes[1]
-                                }
-                            }
+                            val UsuarioM = outs2[index]
+                            //var outs1 = WriteReadUserPass.guardarUserPassArchivo(myContext, UsuarioM, nombreArchivo)
+                            Log.i("prueba", UsuarioM)
 
                         }
                     ) {
