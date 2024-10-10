@@ -31,7 +31,7 @@ class WriteReadUserPass {
                 return "No se pudo acceder al almacenamiento externo"
             }
         }
-        fun leerUserPassArchivo(context: Context, nombreArchivo: String): String {
+        fun leerUserPassArchivo(context: Context, nombreArchivo: String):List<String> {
             val estadoAlmacenamiento = Environment.getExternalStorageState()
 
             if (estadoAlmacenamiento == Environment.MEDIA_MOUNTED) {
@@ -40,17 +40,17 @@ class WriteReadUserPass {
                 try {
                     val flujoEntrada = FileReader(archivo)
                     val leer = BufferedReader(flujoEntrada)
-                    val contenidoArchivo = leer.readLines()
+                    val contenidoArchivo: List<String> = leer.readLines()
                     leer.close()
 
-                    return "Contenido del archivo: $contenidoArchivo"
+                    return contenidoArchivo
                     flujoEntrada.close()
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    return "Error al leer"
+                    return emptyList()
                 }
             }else {
-                return "No se pudo acceder al almacenamiento externo"
+                return emptyList()
             }
         }
     }

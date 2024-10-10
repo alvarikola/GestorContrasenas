@@ -24,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gestorcontraseas.ui.theme.GestorContraseñasTheme
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Contenedor()
+                    Contenedor("login.txt")
                 }
             }
         }
@@ -48,60 +49,151 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun Contenedor(modifier: Modifier = Modifier) {
-    var usuario:String = "Alvaro"
-    var contrasena:String = "1111"
+fun Contenedor(nombreArchivo: String) {
+    val myContext = LocalContext.current
+    var usuario by remember { mutableStateOf("") }
+    var contrasena by remember { mutableStateOf("") }
+    var usuarioMostrar by remember { mutableStateOf("") }
+    var contrasenaMostrar by remember { mutableStateOf("") }
+    var index by remember { mutableStateOf(0) }
+    var outs2 by remember { mutableStateOf(WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)) }
     Text(
         text = "Gestor de Contraseñas",
         fontSize = 30.sp,
         modifier = Modifier.padding(16.dp)
     )
-    Box(modifier = Modifier.padding(40.dp)) {
-        Column {
-            var usuario by remember { mutableStateOf("") }
-
-            OutlinedTextField(
-                value = usuario,
-                onValueChange = { usuario = it },
-                label = { Text("Usuario") }
-            )
-
-            var contrasena by remember { mutableStateOf("") }
-
-            OutlinedTextField(
-                value = contrasena,
-                onValueChange = { contrasena = it },
-                label = { Text("Contraseña: ") }
-            )
-            Button(
-                onClick = {
-//                    var outs2 = WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)
-                    Log.i("prueba", "hola")
+    Column {
+        Row(modifier = Modifier.padding(40.dp)) {
+            Column {
+                OutlinedTextField(
+                    value = usuario,
+                    onValueChange = { usuario = it },
+                    label = { Text("Usuario") }
+                )
+                OutlinedTextField(
+                    value = contrasena,
+                    onValueChange = { contrasena = it },
+                    label = { Text("Contraseña: ") }
+                )
+                var texto = usuario + ":" + contrasena
+                Button(
+                    onClick = {
+                        var outs1 = WriteReadUserPass.guardarUserPassArchivo(myContext, texto, nombreArchivo)
+                        Log.i("prueba", outs1)
 //                    modifier = Modifier.
 
+                    }
+                ) {
+                    Text("Añadir")
                 }
+            }
+
+
+        }
+        Row(modifier = Modifier){
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
             ) {
-                Text("Añadir")
+                Text(
+                    text = "Usuario: " + usuarioMostrar,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(16.dp)
+                )
+                Text(
+                    text = "Contraseña: " + contrasenaMostrar,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(16.dp)
+                )
+                Row {
+                    Button(
+                        onClick = {
+                            outs2 = WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)
+                            val partes = outs2[index].split(":")
+                            if (partes.size == 2) {
+                                usuarioMostrar = partes[0]
+                                contrasenaMostrar = partes[1]
+                            }
+                            Log.i("prueba", usuarioMostrar + contrasenaMostrar)
+                        }
+                    ) {
+                        Text("Actualizar")
+                    }
+                    Button(
+                        onClick = {
+                            if (index > 0) {
+                                Log.i("prueba", outs2.size.toString())
+                                index -= 1
+                                Log.i("prueba", index.toString())
+                                val partes = outs2[index].split(":")
+                                if (partes.size == 2) {
+                                    usuarioMostrar = partes[0]
+                                    contrasenaMostrar = partes[1]
+                                }
+                            }
+
+                        }
+                    ) {
+                        Text("Borrar")
+                    }
+                    Button(
+                        onClick = {
+                            if (index > 0) {
+                                Log.i("prueba", outs2.size.toString())
+                                index -= 1
+                                Log.i("prueba", index.toString())
+                                val partes = outs2[index].split(":")
+                                if (partes.size == 2) {
+                                    usuarioMostrar = partes[0]
+                                    contrasenaMostrar = partes[1]
+                                }
+                            }
+                            else{
+                                index = outs2.size - 1
+                                val partes = outs2[index].split(":")
+                                if (partes.size == 2) {
+                                    usuarioMostrar = partes[0]
+                                    contrasenaMostrar = partes[1]
+                                }
+
+                            }
+                        }
+                    ) {
+                        Text("<")
+                    }
+                    Button(
+                        onClick = {
+                            if (index < outs2.size -1 ) {
+                                Log.i("prueba", outs2.size.toString())
+                                index += 1
+                                Log.i("prueba", index.toString())
+                                val partes = outs2[index].split(":")
+                                if (partes.size == 2) {
+                                    usuarioMostrar = partes[0]
+                                    contrasenaMostrar = partes[1]
+                                }
+                            }
+                            else{
+                                index = 0
+                                val partes = outs2[index].split(":")
+                                if (partes.size == 2) {
+                                    usuarioMostrar = partes[0]
+                                    contrasenaMostrar = partes[1]
+                                }
+
+                            }
+                        }
+                    ) {
+                        Text(">")
+                    }
+                }
+
+
             }
         }
+    }
 
 
-    }
-    Column(
-        verticalArrangement = Arrangement.Center,
-        modifier = modifier
-    ) {
-        Text(
-            text = "Usuario: " + usuario,
-            fontSize = 20.sp,
-            modifier = Modifier.padding(16.dp)
-        )
-        Text(
-            text = "Contraseña: " + contrasena,
-            fontSize = 20.sp,
-            modifier = Modifier.padding(16.dp)
-        )
-    }
 }
 
 //agregar, ver, editar y eliminar contraseñas
