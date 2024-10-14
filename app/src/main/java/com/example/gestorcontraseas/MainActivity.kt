@@ -103,7 +103,7 @@ fun Contenedor(nombreArchivo: String) {
                     trailingIcon = {
                         // Icono para mostrar/ocultar la contraseña
                         IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                            Text(if (isPasswordVisible) "◠" else "⚆") // Cambia el texto del botón
+                            Text(if (isPasswordVisible) "\uD83D\uDD76\uFE0F" else "\uD83D\uDC40") // Cambia el texto del botón
                         }
                     },
                 )
