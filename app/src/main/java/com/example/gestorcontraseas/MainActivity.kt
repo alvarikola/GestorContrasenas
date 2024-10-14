@@ -7,13 +7,17 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -23,8 +27,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gestorcontraseas.ui.theme.GestorContraseñasTheme
@@ -40,7 +47,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Contenedor("login.txt")
+                    Contenedor("ejemplo.txt")
                 }
             }
         }
@@ -57,14 +64,28 @@ fun Contenedor(nombreArchivo: String) {
     var contrasenaMostrar by remember { mutableStateOf("") }
     var index by remember { mutableStateOf(0) }
     var outs2 by remember { mutableStateOf(WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)) }
-    Text(
-        text = "Gestor de Contraseñas",
-        fontSize = 30.sp,
-        modifier = Modifier.padding(16.dp)
-    )
+
     Column {
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth().heightIn(70.dp).background(Color(0xFFFFAF42))
+        ){
+            Text(
+                text = "Gestor de Contraseñas",
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+            )
+        }
         Row(modifier = Modifier.padding(40.dp)) {
             Column {
+                Text(
+                    text = "Añadir Usuario",
+                    fontSize = 15.sp,
+                    modifier = Modifier
+                )
                 OutlinedTextField(
                     value = usuario,
                     onValueChange = { usuario = it },
@@ -77,6 +98,10 @@ fun Contenedor(nombreArchivo: String) {
                 )
                 var texto = usuario + ":" + contrasena
                 Button(
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFFFAF42),
+                    ),
+                    modifier = Modifier.padding(top = 15.dp),
                     onClick = {
                         var outs1 = WriteReadUserPass.guardarUserPassArchivo(myContext, texto, nombreArchivo)
                         Log.i("prueba", outs1)
@@ -86,7 +111,7 @@ fun Contenedor(nombreArchivo: String) {
                 }
             }
         }
-        Row(modifier = Modifier){
+        Row(modifier = Modifier.padding(40.dp)){
             Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
@@ -103,6 +128,9 @@ fun Contenedor(nombreArchivo: String) {
                 )
                 Row {
                     Button(
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFFFAF42),
+                        ),
                         onClick = {
                             outs2 = WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)
                             val partes = outs2[index].split(":")
@@ -116,6 +144,9 @@ fun Contenedor(nombreArchivo: String) {
                         Text("Actualizar")
                     }
                     Button(
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFFFAF42),
+                        ),
                         onClick = {
                             val UsuarioM = outs2[index]
                             WriteReadUserPass.eliminarUserPassPorPuesto(myContext, nombreArchivo, UsuarioM)
@@ -126,6 +157,9 @@ fun Contenedor(nombreArchivo: String) {
                         Text("Borrar")
                     }
                     Button(
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFFFAF42),
+                        ),
                         onClick = {
                             if (index > 0) {
                                 Log.i("prueba", outs2.size.toString())
@@ -151,6 +185,9 @@ fun Contenedor(nombreArchivo: String) {
                         Text("<")
                     }
                     Button(
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFFFAF42),
+                        ),
                         onClick = {
                             if (index < outs2.size -1 ) {
                                 Log.i("prueba", outs2.size.toString())
