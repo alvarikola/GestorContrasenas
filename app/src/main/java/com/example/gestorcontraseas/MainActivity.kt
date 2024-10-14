@@ -85,8 +85,6 @@ fun Contenedor(nombreArchivo: String) {
                     Text("Añadir")
                 }
             }
-
-
         }
         Row(modifier = Modifier){
             Column(
@@ -120,7 +118,7 @@ fun Contenedor(nombreArchivo: String) {
                     Button(
                         onClick = {
                             val UsuarioM = outs2[index]
-                            //var outs1 = WriteReadUserPass.guardarUserPassArchivo(myContext, UsuarioM, nombreArchivo)
+                            WriteReadUserPass.eliminarUserPassPorPuesto(myContext, nombreArchivo, UsuarioM)
                             Log.i("prueba", UsuarioM)
 
                         }
