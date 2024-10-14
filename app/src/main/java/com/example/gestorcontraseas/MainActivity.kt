@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -32,6 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gestorcontraseas.ui.theme.GestorContraseñasTheme
@@ -64,6 +67,7 @@ fun Contenedor(nombreArchivo: String) {
     var contrasenaMostrar by remember { mutableStateOf("") }
     var index by remember { mutableStateOf(0) }
     var outs2 by remember { mutableStateOf(WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)) }
+    var isPasswordVisible by remember { mutableStateOf(false) }
 
     Column {
         Row (
@@ -94,7 +98,14 @@ fun Contenedor(nombreArchivo: String) {
                 OutlinedTextField(
                     value = contrasena,
                     onValueChange = { newText -> contrasena = newText },
-                    label = { Text("Contraseña: ") }
+                    label = { Text("Contraseña: ") },
+                    visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(), // Controla la visibilidad de la contraseña
+                    trailingIcon = {
+                        // Icono para mostrar/ocultar la contraseña
+                        IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                            Text(if (isPasswordVisible) "Ocultar" else "Mostrar") // Cambia el texto del botón
+                        }
+                    },
                 )
                 var texto = usuario + ":" + contrasena
                 Button(
