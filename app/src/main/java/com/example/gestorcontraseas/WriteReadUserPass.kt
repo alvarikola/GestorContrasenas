@@ -65,5 +65,16 @@ class WriteReadUserPass {
                 archivo.writeText(lineas.joinToString("\n"))
             }
         }
+        fun editarUserPassPorPuesto(context: Context, nombreArchivo: String, UsuarioM: String){
+            val estadoAlmacenamiento = Environment.getExternalStorageState()
+
+            if (estadoAlmacenamiento == Environment.MEDIA_MOUNTED) {
+                val directorio = context.filesDir
+                val archivo = File(directorio, nombreArchivo)
+                val lineas = archivo.readLines().toMutableList()
+                lineas.replaceAll() { UsuarioM }
+                archivo.writeText(lineas.joinToString("\n"))
+            }
+        }
     }
 }

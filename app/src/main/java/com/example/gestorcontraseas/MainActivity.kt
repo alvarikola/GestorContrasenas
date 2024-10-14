@@ -68,12 +68,15 @@ fun Contenedor(nombreArchivo: String) {
     var outs2 by remember { mutableStateOf(WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)) }
     var isPasswordVisible by remember { mutableStateOf(false) }
 
-    outs2 = WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)
-    val partes = outs2[index].split(":")
-    if (partes.size == 2) {
-        usuarioMostrar = partes[0]
-        contrasenaMostrar = partes[1]
+    fun Actualizar(){
+        outs2 = WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)
+        val partes = outs2[index].split(":")
+        if (partes.size == 2) {
+            usuarioMostrar = partes[0]
+            contrasenaMostrar = partes[1]
+        }
     }
+    Actualizar()
 
     Column {
         Row (
@@ -110,16 +113,11 @@ fun Contenedor(nombreArchivo: String) {
                             containerColor = Color(0xFFFFAF42),
                         ),
                         onClick = {
-                            outs2 = WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)
-                            val partes = outs2[index].split(":")
-                            if (partes.size == 2) {
-                                usuarioMostrar = partes[0]
-                                contrasenaMostrar = partes[1]
-                            }
-                            Log.i("prueba", usuarioMostrar + contrasenaMostrar)
+                            Actualizar()
+                            Log.i("prueba", "Estamos añadiendo este método")
                         }
                     ) {
-                        Text("Actualizar")
+                        Text("Editar")
                     }
                     Button(
                         colors = ButtonDefaults.buttonColors(
@@ -129,6 +127,7 @@ fun Contenedor(nombreArchivo: String) {
                             val UsuarioM = outs2[index]
                             WriteReadUserPass.eliminarUserPassPorPuesto(myContext, nombreArchivo, UsuarioM)
                             Log.i("prueba", UsuarioM)
+                            Actualizar()
 
                         }
                     ) {
@@ -230,6 +229,7 @@ fun Contenedor(nombreArchivo: String) {
                         contrasena = ""
                         var outs1 = WriteReadUserPass.guardarUserPassArchivo(myContext, texto, nombreArchivo)
                         Log.i("prueba", outs1)
+                        Actualizar()
                     }
                 ) {
                     Text("Añadir")
