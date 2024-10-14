@@ -2,6 +2,7 @@ package com.example.gestorcontraseas
 
 import android.content.Context
 import android.os.Environment
+import android.util.Log
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.File
@@ -44,7 +45,6 @@ class WriteReadUserPass {
                     leer.close()
 
                     return contenidoArchivo
-                    flujoEntrada.close()
                 } catch (e: Exception) {
                     e.printStackTrace()
                     return emptyList()
@@ -53,28 +53,16 @@ class WriteReadUserPass {
                 return emptyList()
             }
         }
-        fun eliminarUserPassPorPuesto(context: Context, nombreArchivo: String, UsuarioM: String): String {
+
+        fun eliminarUserPassPorPuesto(context: Context, nombreArchivo: String, UsuarioM: String){
             val estadoAlmacenamiento = Environment.getExternalStorageState()
+
             if (estadoAlmacenamiento == Environment.MEDIA_MOUNTED) {
                 val directorio = context.filesDir
                 val archivo = File(directorio, nombreArchivo)
-                try {
-                    val contenidoArchivo = leerUserPassArchivo(context, nombreArchivo).toMutableList()
-                    val encontrado = contenidoArchivo.removeIf { it.split(",")[1] == UsuarioM}
-                    return if (encontrado) {
-                        BufferedWriter(FileWriter(archivo)).use { writer ->
-                            contenidoArchivo.forEach { writer.write(it + "\n") }
-                        }
-                        "Elemento con puesto $UsuarioM eliminado correctamente."
-                    } else {
-                        "Elemento con puesto $UsuarioM no encontrado."
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    return "Error al eliminar el elemento."
-                }
-            } else {
-                return "No se pudo acceder al almacenamiento externo"
+                val lineas = archivo.readLines().toMutableList()
+                lineas.removeIf { it == UsuarioM }
+                archivo.writeText(lineas.joinToString("\n"))
             }
         }
     }
