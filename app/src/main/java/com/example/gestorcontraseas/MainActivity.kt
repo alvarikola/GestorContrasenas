@@ -69,7 +69,6 @@ fun Contenedor(nombreArchivo: String) {
     var outs2 by remember { mutableStateOf(WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)) }
     var isPasswordVisible by remember { mutableStateOf(false) }
 
-    val contrasenaOculta = "*".repeat(contrasenaMostrar.length)
 
     Column {
         Row (
@@ -137,7 +136,7 @@ fun Contenedor(nombreArchivo: String) {
                     modifier = Modifier.padding(16.dp)
                 )
                 Text(
-                    text = "Contraseña: " + contrasenaOculta,
+                    text = "Contraseña: " + contrasenaMostrar,
                     fontSize = 20.sp,
                     modifier = Modifier.padding(16.dp)
                 )
