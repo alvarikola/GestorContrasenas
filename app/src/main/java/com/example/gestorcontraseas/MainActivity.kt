@@ -93,7 +93,7 @@ fun Contenedor(nombreArchivo: String) {
                 )
                 OutlinedTextField(
                     value = contrasena,
-                    onValueChange = { newText -> usuario = newText },
+                    onValueChange = { newText -> contrasena = newText },
                     label = { Text("Contraseña: ") }
                 )
                 var texto = usuario + ":" + contrasena
@@ -104,6 +104,7 @@ fun Contenedor(nombreArchivo: String) {
                     modifier = Modifier.padding(top = 15.dp),
                     onClick = {
                         usuario = ""
+                        contrasena = ""
                         var outs1 = WriteReadUserPass.guardarUserPassArchivo(myContext, texto, nombreArchivo)
                         Log.i("prueba", outs1)
                     }
