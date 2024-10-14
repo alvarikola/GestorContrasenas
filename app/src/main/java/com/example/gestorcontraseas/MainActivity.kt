@@ -9,7 +9,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -69,6 +68,12 @@ fun Contenedor(nombreArchivo: String) {
     var outs2 by remember { mutableStateOf(WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)) }
     var isPasswordVisible by remember { mutableStateOf(false) }
 
+    outs2 = WriteReadUserPass.leerUserPassArchivo(myContext, nombreArchivo)
+    val partes = outs2[index].split(":")
+    if (partes.size == 2) {
+        usuarioMostrar = partes[0]
+        contrasenaMostrar = partes[1]
+    }
 
     Column {
         Row (
@@ -83,47 +88,6 @@ fun Contenedor(nombreArchivo: String) {
                 color = Color.White,
                 modifier = Modifier
             )
-        }
-        Row(modifier = Modifier.padding(40.dp)) {
-            Column {
-                Text(
-                    text = "Añadir Usuario",
-                    fontSize = 15.sp,
-                    modifier = Modifier
-                )
-                OutlinedTextField(
-                    value = usuario,
-                    onValueChange = { newText -> usuario = newText },
-                    label = { Text("Usuario") }
-                )
-                OutlinedTextField(
-                    value = contrasena,
-                    onValueChange = { newText -> contrasena = newText },
-                    label = { Text("Contraseña: ") },
-                    visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(), // Controla la visibilidad de la contraseña
-                    trailingIcon = {
-                        // Icono para mostrar/ocultar la contraseña
-                        IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                            Text(if (isPasswordVisible) "\uD83D\uDD76\uFE0F" else "\uD83D\uDC40") // Cambia el texto del botón
-                        }
-                    },
-                )
-                var texto = usuario + ":" + contrasena
-                Button(
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFFFAF42),
-                    ),
-                    modifier = Modifier.padding(top = 15.dp),
-                    onClick = {
-                        usuario = ""
-                        contrasena = ""
-                        var outs1 = WriteReadUserPass.guardarUserPassArchivo(myContext, texto, nombreArchivo)
-                        Log.i("prueba", outs1)
-                    }
-                ) {
-                    Text("Añadir")
-                }
-            }
         }
         Row(modifier = Modifier.padding(40.dp)){
             Column(
@@ -231,12 +195,48 @@ fun Contenedor(nombreArchivo: String) {
 
             }
         }
+        Row(modifier = Modifier.padding(40.dp)) {
+            Column {
+                Text(
+                    text = "Añadir Usuario",
+                    fontSize = 15.sp,
+                    modifier = Modifier
+                )
+                OutlinedTextField(
+                    value = usuario,
+                    onValueChange = { newText -> usuario = newText },
+                    label = { Text("Usuario") }
+                )
+                OutlinedTextField(
+                    value = contrasena,
+                    onValueChange = { newText -> contrasena = newText },
+                    label = { Text("Contraseña: ") },
+                    visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(), // Controla la visibilidad de la contraseña
+                    trailingIcon = {
+                        // Icono para mostrar/ocultar la contraseña
+                        IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                            Text(if (isPasswordVisible) "\uD83D\uDD76\uFE0F" else "\uD83D\uDC40") // Cambia el texto del botón
+                        }
+                    },
+                )
+                var texto = usuario + ":" + contrasena
+                Button(
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFFFAF42),
+                    ),
+                    modifier = Modifier.padding(top = 15.dp),
+                    onClick = {
+                        usuario = ""
+                        contrasena = ""
+                        var outs1 = WriteReadUserPass.guardarUserPassArchivo(myContext, texto, nombreArchivo)
+                        Log.i("prueba", outs1)
+                    }
+                ) {
+                    Text("Añadir")
+                }
+            }
+        }
     }
 
 
 }
-
-//agregar, ver, editar y eliminar contraseñas
-//técnicas de seguridad adecuadas
-//implementación del almacenamiento de contraseñas
-// pruebas unitarias y de integración.
